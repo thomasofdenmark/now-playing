@@ -1,0 +1,79 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-material/paper-material.html">
+<link rel="import" href="../paper-spinner/paper-spinner.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../iron-icons/av-icons.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../firebase-element/firebase-document.html">
+
+<!--
+An element displaying syncronized data from Firebase
+
+Example:
+
+    <now-playing></now-playing>
+
+@group Now playing
+@element now-playing
+@demo demo/index.html
+-->
+
+<dom-module id="now-playing">
+  <template>
+    <style>
+      paper-spinner {
+        width: 24px;
+        height: 24px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 8px;
+        vertical-align: middle;
+      }
+      paper-spinner {
+        --paper-spinner-layer-1-color: #000;
+        --paper-spinner-layer-2-color: #000;
+        --paper-spinner-layer-3-color: #000;
+        --paper-spinner-layer-4-color: #000;
+      }
+    </style>
+    <firebase-document  id="firebaseDocument" 
+                        data="{{current}}"
+                        location="{{_firebaseLocation}}">
+    </firebase-document>
+    
+    <paper-material>
+      <paper-icon-button icon="av:volume-up" alt="Playing..." class=""></paper-icon-button>
+      <paper-spinner hidden="[[current.title]]" alt="Loading..." active></paper-spinner>
+      <span>[[current.title]]</span>
+    </paper-material>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'now-playing',
+
+      properties: {
+        jukeboxId: String,
+        _firebaseLocation: {
+          type: String,
+          computed: '_computeFirebaseLocation(jukeboxId)'
+        }
+      },
+
+      _computeFirebaseLocation: function(jukeboxId) {
+        return 'https://deejay.firebaseio.com/currentlyplaying/' + jukeboxId;
+      }
+    });
+  </script>
+</dom-module>
