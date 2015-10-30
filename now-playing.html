@@ -14,7 +14,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../iron-icons/av-icons.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
-<link rel="import" href="../firebase-element/firebase-document.html">
 
 <!--
 An element displaying syncronized data from Firebase
@@ -46,15 +45,11 @@ Example:
         --paper-spinner-layer-4-color: #000;
       }
     </style>
-    <firebase-document  id="firebaseDocument" 
-                        data="{{current}}"
-                        location="{{_firebaseLocation}}">
-    </firebase-document>
-    
+
     <paper-material>
-      <paper-icon-button icon="av:volume-up" alt="Playing..." class=""></paper-icon-button>
+      <paper-icon-button icon="av:volume-up" alt="Playing..."></paper-icon-button>
       <paper-spinner hidden="[[current.title]]" alt="Loading..." active></paper-spinner>
-      <span>[[current.title]]</span>
+      <span>[[current]]</span>
     </paper-material>
 
   </template>
@@ -64,15 +59,7 @@ Example:
       is: 'now-playing',
 
       properties: {
-        jukeboxId: String,
-        _firebaseLocation: {
-          type: String,
-          computed: '_computeFirebaseLocation(jukeboxId)'
-        }
-      },
-
-      _computeFirebaseLocation: function(jukeboxId) {
-        return 'https://deejay.firebaseio.com/currentlyplaying/' + jukeboxId;
+        current: String
       }
     });
   </script>
